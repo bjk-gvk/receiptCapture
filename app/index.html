@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Receipts</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Receipts">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body data-screen="camera">
+
+  <!-- 1. Camera: opens on launch. Mic is live while framing the shot. -->
+  <section id="camera" class="screen" aria-label="Camera">
+    <video id="video" autoplay playsinline muted></video>
+    <div id="cam-error" class="cam-error" hidden>
+      <p id="cam-error-text"></p>
+      <button id="cam-retry" class="btn">Try camera again</button>
+    </div>
+    <div class="cam-top">
+      <button id="to-list" class="pill">Receipts <span id="count" class="badge">0</span></button>
+    </div>
+    <div class="cam-bottom">
+      <div class="transcript">
+        <div id="cam-mic" class="mic"></div>
+        <p id="cam-text" class="cam-text"></p>
+      </div>
+      <div class="controls">
+        <label class="side-btn" aria-label="Add a photo from your library">
+          <input id="file-input" type="file" accept="image/*" hidden>
+          <span>Photos</span>
+        </label>
+        <button id="shutter" class="shutter" aria-label="Take photo"></button>
+        <span class="side-btn" aria-hidden="true"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Review: photo + live transcript, then Next receipt or Done. -->
+  <section id="review" class="screen" aria-label="Review receipt">
+    <div class="review-top"><span id="review-title"></span></div>
+    <img id="review-img" class="review-img" alt="Receipt photo">
+    <div class="review-panel">
+      <div class="mic-row">
+        <span id="rev-mic" class="mic"></span>
+        <button id="mic-toggle" class="link-btn"></button>
+      </div>
+      <textarea id="review-text" rows="3"
+        placeholder="What was it for? Who was there (names, company, staff or customer)?"></textarea>
+      <div class="row">
+        <button id="retake" class="btn">Retake</button>
+        <button id="done" class="btn">Done</button>
+        <button id="next" class="btn primary">Next receipt</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. List: running list, edit, export. -->
+  <section id="list" class="screen" aria-label="Receipts">
+    <div class="list-scroll">
+      <h1>Receipts</h1>
+      <label class="field">
+        <span>Trip or event (optional)</span>
+        <input id="trip" type="text" autocomplete="off" placeholder="e.g. Sydney trip">
+      </label>
+      <p id="empty" class="empty">No receipts yet.</p>
+      <ol id="items" class="items"></ol>
+      <button id="new-trip" class="link-btn danger">Start new trip (deletes all receipts)</button>
+    </div>
+    <div class="list-footer">
+      <div id="export" class="export" hidden>
+        <p id="export-info"></p>
+        <div class="row">
+          <button id="share" class="btn primary">Share / Save ZIP</button>
+          <a id="download" class="btn" download>Download ZIP</a>
+        </div>
+      </div>
+      <div class="row">
+        <button id="add" class="btn">+ Add receipt</button>
+        <button id="make-zip" class="btn primary">Create ZIP</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="viewer" class="viewer" hidden><img alt="Receipt photo, full size"></div>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
